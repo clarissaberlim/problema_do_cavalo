@@ -38,27 +38,34 @@ A heurística de Warnsdorff é aplicada na função sortPoss, que prioriza as ca
 É uma estratégia usada para resolver o Problema do Cavalo de forma mais eficiente, reduzindo o número de tentativas que o algoritmo precisa fazer para encontrar uma solução válida.
 
 🧩 O que é essa heurística?
+
 É uma regra prática que ajuda a escolher o próximo movimento do cavalo com maior chance de sucesso, baseada na seguinte ideia:
 Sempre mova o cavalo para a casa que possui o menor número de saídas (movimentos válidos futuros).
 
 🧠 Por que isso ajuda?
+
 A lógica por trás é simples:
 - Se você vai para uma casa com muitas opções futuras, pode acabar "fechando" o caminho para casas com poucas saídas antes de alcançá-las.
 - Se você vai primeiro para casas mais restritas, você evita bloqueios futuros — ou seja, evita ficar "preso" sem movimentos válidos mais à frente.
 
 🔧 Como está implementado no código
+
 A heurística é aplicada na função sortPoss:
 
-def sortPoss(movimentos, poss):
-    numeroDeBifurcacoes = lambda atual: len(possiveis(movimentos + [atual], atual))
-    newPoss = sorted(poss, key = numeroDeBifurcacoes)
-    return newPoss
+    def sortPoss(movimentos, poss):
+
+        numeroDeBifurcacoes = lambda atual: len(possiveis(movimentos + [atual], atual))
+    
+        newPoss = sorted(poss, key = numeroDeBifurcacoes)
+    
+        return newPoss
 
 - numeroDeBifurcacoes calcula quantas opções o cavalo teria se fosse para a casa atual.
 - A lista de movimentos possíveis é ordenada da casa com menos opções para a casa com mais opções.
 - O algoritmo de backtracking testa primeiro as casas com menos saídas, seguindo a heurística.
 
 📈 Resultado
+
 Usando a heurística de Warnsdorff:
 - O algoritmo encontra a solução muito mais rápido.
 - Evita chamadas desnecessárias.
@@ -73,9 +80,12 @@ No entanto, com a heurística de Warnsdorff, o número de caminhos testados é d
 
 Resumo da complexidade:
 
-Parte do Código    Complexidade Aproximada
-possiveis()          O(1) (máximo 8 movimentos)
-sortPoss()           O(n × 8) = O(8n)
-validos()            Exponencial no pior caso, mas próximo de O(n) com a heurística bem aplicada
+Parte do Código | Complexidade Aproximada
+
+possiveis()______ | O(1) (máximo 8 movimentos)
+
+sortPoss()_______ |  O(n × 8) = O(8n)
+
+validos()________ | Exponencial no pior caso, mas próximo de O(n) com a heurística bem aplicada
 
 Como n = 64, o algoritmo com heurística pode terminar em tempo praticamente constante na prática (menos de 1 segundo em muitos computadores), apesar da complexidade teórica ser exponencial.
